@@ -18,13 +18,13 @@ export default function Navbar() {
     };
 
     return (
-        <nav className="bg-gray-800 text-white">
+        <nav className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white shadow-lg">
             {/* Desktop Navigation */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     <div className="flex items-center">
                         <Link href="/">
-                            <div className="text-xl font-bold cursor-pointer">
+                            <div className="text-2xl font-bold cursor-pointer hover:text-gray-200 transition-colors duration-300">
                                 Logo
                             </div>
                         </Link>
@@ -35,9 +35,9 @@ export default function Navbar() {
                         <div className="ml-10 flex items-center space-x-4">
                             {auth.isLogin ? (
                                 <div className="flex items-center gap-4">
-                                    <span className="text-gray-300">Hello, {auth.user.first_name}</span>
+                                    <span className="text-gray-200">Hello, {auth.user.first_name}</span>
                                     <button
-                                        className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                                        className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm font-medium transition-transform duration-300 transform hover:scale-105"
                                         onClick={() => {
                                             dispatch(onLogout());
                                             deleteCookie("access_token");
@@ -50,13 +50,13 @@ export default function Navbar() {
                             ) : (
                                 <div className="flex gap-4">
                                     <button
-                                        className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                                        className=" hover:bg-indigo-400 text-white px-4 py-2 rounded-md text-sm font-medium transition-transform duration-300 transform hover:scale-105"
                                         onClick={() => router.push("/login")}
                                     >
                                         Sign In
                                     </button>
                                     <button
-                                        className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                                        className=" hover:bg-indigo-400 text-white px-4 py-2 rounded-md text-sm font-medium transition-transform duration-300 transform hover:scale-105"
                                         onClick={() => router.push("/register")}
                                     >
                                         Sign Up
@@ -93,9 +93,9 @@ export default function Navbar() {
                     <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                         {auth.isLogin ? (
                             <div className="flex flex-col space-y-3 px-3 py-2">
-                                <span className="text-gray-300">Hello, {auth.user.first_name}</span>
+                                <span className="text-gray-200">Hello, {auth.user.first_name}</span>
                                 <button
-                                    className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-md text-sm font-medium w-full text-center"
+                                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md text-sm font-medium w-full text-center transition-transform duration-300 transform hover:scale-105"
                                     onClick={() => {
                                         dispatch(onLogout());
                                         deleteCookie("access_token");
@@ -109,7 +109,7 @@ export default function Navbar() {
                         ) : (
                             <div className="flex flex-col space-y-3 px-3 py-2">
                                 <button
-                                    className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-md text-sm font-medium w-full text-center"
+                                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md text-sm font-medium w-full text-center transition-transform duration-300 transform hover:scale-105"
                                     onClick={() => {
                                         router.push("/login");
                                         setIsMenuOpen(false);
@@ -118,7 +118,7 @@ export default function Navbar() {
                                     Sign In
                                 </button>
                                 <button
-                                    className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-md text-sm font-medium w-full text-center"
+                                    className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md text-sm font-medium w-full text-center transition-transform duration-300 transform hover:scale-105"
                                     onClick={() => {
                                         router.push("/register");
                                         setIsMenuOpen(false);
