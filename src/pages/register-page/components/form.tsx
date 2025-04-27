@@ -20,7 +20,7 @@ export default function RegisterForm() {
   const register = async (values: IRegister & { role: string }) => {
     try {
       const { data } = await axios.get(
-        `http://localhost:7001/user?email=${values.email}`
+        `http://localhost:5050/user?email=${values.email}`
       );
 
       if (data.length > 0) throw new Error("Email sudah terdaftar");
@@ -31,7 +31,7 @@ export default function RegisterForm() {
         password: values.password, // Password will be hashed server-side
       };
 
-      await axios.post("http://localhost:7001/user", userData);
+      await axios.post("http://localhost:5050/user", userData);
 
       alert("Register Success");
 
