@@ -3,7 +3,7 @@
 import { Formik, Form, Field, FormikProps } from "formik";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-
+import  Swal from "sweetalert2"
 import RegisterSchema from "./schema";
 import IRegister from "./type";
 
@@ -19,30 +19,56 @@ export default function RegisterForm() {
 
   const register = async (values: IRegister & { role: string }) => {
     try {
-      const { data } = await axios.get(
-        `http://localhost:5050/user?email=${values.email}`
+      const { data } = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/register`,
+        {
+          email: values.email,
+          first_name: values.first_name,
+          last_name: values.last_name,
+          password: values.password,
+          role: values.role,
+        }
       );
 
-      if (data.length > 0) throw new Error("Email sudah terdaftar");
-
-      // Prepare data for server-side password hashing and JWT handling
-      const userData = {
-        ...values,
-        password: values.password, // Password will be hashed server-side
-      };
-
-      await axios.post("http://localhost:5050/user", userData);
-
-      alert("Register Success");
-
-      router.push("/login");
-    } catch (err) {
-      alert((err as any).message);
+      Swal.fire({
+        title: data.message,
+        icon: "success",
+        confirmButtonText: "Cool",
+        timer: 2000,
+      });
+    } catch (err: any) {
+      Swal.fire({
+        title: "Error!",
+        text: err.message,
+        icon: "error",
+        confirmButtonText: "Cool",
+      });
     }
-  };
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('/images/background.jpg')" }}>
+      //   const { data } = await axios.get(
+      //     `http://localhost:5050/user?email=${values.email}`
+      //   );
+  
+      //   if (data.length > 0) throw new Error("Email sudah terdaftar");
+  
+      //   // Prepare data for server-side password hashing and JWT handling
+      //   const userData = {
+      //     ...values,
+      //     password: values.password, // Password will be hashed server-side
+      //   };
+  
+      //   await axios.post("http://localhost:5050/user", userData);
+  
+      //   alert("Register Success");
+  
+      //   router.push("/login");
+      // } catch (err) {
+      //   alert((err as any).message);
+      // }
+    };
+    
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('/images/background.jpg')" }}>
       <div className="bg-white p-4  rounded-lg shadow-lg max-w-md w-80">
         <Formik
           initialValues={initialValues}

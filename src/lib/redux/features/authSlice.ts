@@ -4,6 +4,7 @@ interface IUser {
   email: string;
   first_name: string;
   last_name: string;
+  role: string;
   avatar?: string;
 }
 
@@ -17,6 +18,7 @@ const initialState: IAuth = {
     email: "",
     first_name: "",
     last_name: "",
+    role: "",
     avatar: "",
   },
   isLogin: false,
