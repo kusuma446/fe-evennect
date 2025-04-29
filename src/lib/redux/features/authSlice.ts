@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { setCookie, deleteCookie } from "cookies-next";
 
 interface IUser {
   email: string;
