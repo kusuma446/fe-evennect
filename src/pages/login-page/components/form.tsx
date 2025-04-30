@@ -30,16 +30,16 @@ export default function LoginForm() {
       dispatch(
         onLogin({
           user: {
-            email: data.user.email,
-            first_name: data.user.first_name,
-            last_name: data.user.last_name,
-            role: data.user.role,
-            avatar: data.user.avatar, // jika tersedia
+            email: data.data.user.email,
+            first_name: data.data.user.first_name,
+            last_name: data.data.user.last_name,
+            role: data.data.user.role,
+            avatar: data.data.user.avatar, // jika tersedia
           },
           isLogin: true,
         })
       );
-      setCookie("access_token", data.token);
+      setCookie("access_token", data.data.token);
 
       Swal.fire({
         title: data.message,
