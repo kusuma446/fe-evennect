@@ -9,16 +9,17 @@ import IRegister from "./type";
 
 export default function RegisterForm() {
   const router = useRouter();
-  const initialValues: IRegister & { role: string } = {
+  const initialValues: IRegister = {
     email: "",
     first_name: "",
     last_name: "",
     password: "",
-    role: "CUSTOMER", // Default role
+    role: "", // Default role
   };
 
-  const register = async (values: IRegister & { role: string }) => {
+  const register = async (values: IRegister) => {
     try {
+      console.log("Registering with values:", values);
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/register`,
         {
@@ -29,19 +30,24 @@ export default function RegisterForm() {
           role: values.role,
         }
       );
-
+  
       Swal.fire({
         title: data.message,
         icon: "success",
-        confirmButtonText: "Cool",
-        timer: 2000,
+        confirmButtonText: "OK",
+        timer: 1000,
+      }).then(() => {
+        // Setelah alert selesai, arahkan ke halaman login
+        router.push("/login");
       });
+  
     } catch (err: any) {
+      console.error("Register error:", err);
       Swal.fire({
         title: "Error!",
-        text: err.message,
+        text: err?.response?.data?.message || "Something went wrong. Please try again.",
         icon: "error",
-        confirmButtonText: "Cool",
+        confirmButtonText: "OK",
       });
     }
 
@@ -68,13 +74,13 @@ export default function RegisterForm() {
     };
     
     return (
-      <div className="min-h-screen flex items-center justify-center bg-cover bg-center" style={{ backgroundImage: "url('/images/background.jpg')" }}>
+      <div className="min-h-screen flex items-center justify-center bg-cover bg-center">
       <div className="bg-white p-4  rounded-lg shadow-lg max-w-md w-80">
         <Formik
           initialValues={initialValues}
           validationSchema={RegisterSchema}
-          onSubmit={(values, { resetForm }) => {
-            register(values);
+          onSubmit={async(values, { resetForm }) => {
+            await register(values);
             resetForm();
           }}
         >
@@ -83,6 +89,19 @@ export default function RegisterForm() {
 
             return (
               <Form className="flex flex-col gap-4">
+                <div className="flex flex-col">
+                  <label>Email: </label>
+                  <Field
+                    type="email"
+                    name="email"
+                    onChange={handleChange}
+                    value={values.email}
+                    className="border border-gray-300 rounded-lg p-2"
+                  />
+                  {touched.email && errors.email ? (
+                    <div className="text-red-500">{errors.email}</div>
+                  ) : null}
+                </div>
                 <div className="flex flex-col">
                   <label>First Name: </label>
                   <Field
@@ -107,19 +126,6 @@ export default function RegisterForm() {
                   />
                   {touched.last_name && errors.last_name ? (
                     <div className="text-red-500">{errors.last_name}</div>
-                  ) : null}
-                </div>
-                <div className="flex flex-col">
-                  <label>Email: </label>
-                  <Field
-                    type="email"
-                    name="email"
-                    onChange={handleChange}
-                    value={values.email}
-                    className="border border-gray-300 rounded-lg p-2"
-                  />
-                  {touched.email && errors.email ? (
-                    <div className="text-red-500">{errors.email}</div>
                   ) : null}
                 </div>
                 <div className="flex flex-col">

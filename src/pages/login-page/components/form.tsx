@@ -4,11 +4,10 @@ import { Formik, Form, Field, FormikProps } from "formik";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/lib/redux/hooks";
-
 import sign from "jwt-encode";
 import { setCookie } from "cookies-next";
-
 import { onLogin } from "@/lib/redux/features/authSlice";
+import Swal from "sweetalert2";
 
 import LoginSchema from "./schema";
 import ILogin from "./type";
@@ -17,40 +16,49 @@ export default function LoginForm() {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const initialValues: ILogin = {
-    email: "",
-    password: "",
-  };
-
-  const login = async (values: ILogin) => {
+  const initialValues: ILogin = { email: "", password: "" };
+  const handleLogin = async (values: ILogin) => {
     try {
-      const { data } = await axios.get(
-        `http://localhost:7001/user?email=${values.email}&password=${values.password}`
+      const { data } = await axios.post(
+        `${process.env.NEXT_PUBLIC_BASE_API_URL}/auth/login`,
+        {
+          ...values,
+        }
       );
 
-      if (data.length === 0) throw new Error("Email atau Password salah");
+      console.log(data);
+      dispatch(
+        onLogin({
+          user: {
+            email: data.user.email,
+            first_name: data.user.first_name,
+            last_name: data.user.last_name,
+            role: data.user.role,
+            avatar: data.user.avatar, // jika tersedia
+          },
+          isLogin: true,
+        })
+      );
+      setCookie("access_token", data.token);
 
-      const stateUser = {
-        user: {
-          email: data[0].email,
-          first_name: data[0].first_name,
-          last_name: data[0].last_name,
-        },
-        isLogin: true,
-      };
-
-      const token = sign(stateUser, "test");
-
-      setCookie("access_token", token);
-      dispatch(onLogin(stateUser));
-
-      alert("Login Success");
-      router.push("/");
-    } catch (err) {
-      alert((err as any).message);
+      Swal.fire({
+        title: data.message,
+        icon: "success",
+        confirmButtonText: "Cool",
+        timer: 1000,
+      }).then(() => {
+        // Arahkan setelah popup sukses ditutup
+        router.push("/"); // atau "/dashboard"
+      });
+    } catch (err: any) {
+      Swal.fire({
+        title: "Error!",
+        text: err.message,
+        icon: "error",
+        confirmButtonText: "Cool",
+      });
     }
   };
-
   return (
     <div className="max-w-md mx-auto mt-10 top-0 p-6 bg-white shadow-md rounded-lg">
       <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">
@@ -60,7 +68,7 @@ export default function LoginForm() {
         initialValues={initialValues}
         validationSchema={LoginSchema}
         onSubmit={(values, { resetForm }) => {
-          login(values);
+          handleLogin(values);
           resetForm();
         }}
       >
