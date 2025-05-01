@@ -151,7 +151,7 @@ export default function RegisterForm() {
                     className="border border-gray-300 rounded-lg p-2"
                   >
                     <option value="CUSTOMER">CUSTOMER</option>
-                    <option value="ORGANIZATION">ORGANIZATION</option>
+                    <option value="ORGANIZER">ORGANIZER</option>
                   </Field>
                 </div>
                 <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
