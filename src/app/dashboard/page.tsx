@@ -1,5 +1,5 @@
 import React from 'react'
-import DasboardMain from '@/pages/dasboard-page'
+import DasboardMain from '@/pages/dashboard-page'
 
 export default function DasboardPage() {
   return (
