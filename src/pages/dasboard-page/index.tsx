@@ -54,21 +54,27 @@ export default function OrganizerDashboard() {
         <p>No events found.</p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {events.map((event) => (
-            <div
-              key={event.event_id}
-              className="border rounded-lg p-4 shadow bg-white"
-            >
-              <h2 className="text-lg font-semibold mb-2">{event.event_name}</h2>
-              <p>
-                Total Sales:{" "}
-                <strong>Rp {event.totalSales.toLocaleString()}</strong>
-              </p>
-              <p>Tickets Sold: {event.totalTicketSold}</p>
-              <p>Average Rating: {event.avgRating ?? "-"}</p>
-              <p>Total Reviews: {event.reviewCount}</p>
-            </div>
-          ))}
+          {events.map(
+            (
+              event // Error: events.map is not a function
+            ) => (
+              <div
+                key={event.event_id}
+                className="border rounded-lg p-4 shadow bg-white"
+              >
+                <h2 className="text-lg font-semibold mb-2">
+                  {event.event_name}
+                </h2>
+                <p>
+                  Total Sales:{" "}
+                  <strong>Rp {event.totalSales.toLocaleString()}</strong>
+                </p>
+                <p>Tickets Sold: {event.totalTicketSold}</p>
+                <p>Average Rating: {event.avgRating ?? "-"}</p>
+                <p>Total Reviews: {event.reviewCount}</p>
+              </div>
+            )
+          )}
         </div>
       )}
     </div>
