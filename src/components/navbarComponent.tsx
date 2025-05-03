@@ -6,6 +6,7 @@ import { useAppSelector, useAppDispatch } from "@/lib/redux/hooks";
 import { deleteCookie } from "cookies-next";
 import { onLogout } from "@/lib/redux/features/authSlice";
 import { useState } from "react";
+import SearchInput from "./SearchEvents";
 
 export default function Navbar() {
     const auth = useAppSelector((state) => state.auth);
@@ -63,6 +64,10 @@ export default function Navbar() {
                         /> */}
                         LOGO
                     </Link>
+
+                    <div className="flex-1 mx-8 px-4">
+                    <SearchInput />
+                    </div>
 
                     {/* Desktop menu */}
                     <div className="hidden md:flex items-center space-x-6">
